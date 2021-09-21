@@ -1,16 +1,25 @@
 package net.marioplus.demo.fx.fxdemo;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import net.marioplus.demo.fx.fxdemo.common.log.TextAreaOutStreamAppender;
+import net.marioplus.demo.fx.fxdemo.common.log.TextAreaOutputStream;
+import net.marioplus.demo.fx.fxdemo.controller.HelloController;
 
 import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * @author marioplus
  */
 public class App extends Application {
+
+    public static void main(String[] args) {
+        launch();
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -19,9 +28,12 @@ public class App extends Application {
         stage.setTitle("Hello!");
         stage.setScene(scene);
         stage.show();
+
+        Platform.runLater(this::setTextArea);
     }
 
-    public static void main(String[] args) {
-        launch();
+    private void setTextArea() {
+        OutputStream os = new TextAreaOutputStream(HelloController.INSTANCE.taLog);
+        TextAreaOutStreamAppender.setStaticOutputStream(os);
     }
 }

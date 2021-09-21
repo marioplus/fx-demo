@@ -4,8 +4,10 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.github.rholder.retry.*;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import lombok.extern.slf4j.Slf4j;
@@ -24,13 +26,21 @@ import java.util.concurrent.TimeUnit;
 public class HelloController {
 
     @FXML
+    public TextArea taLog;
+
+    public static HelloController INSTANCE;
+
+    public HelloController() {
+        INSTANCE = this;
+    }
+
+    @FXML
     private Label welcomeText;
     @FXML
     private VBox root;
 
     @FXML
     protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
         FileChooser fc = FileChooserBuilder.build()
                 .title("选择excel文件")
                 .initialDirectory(FileChooserBuilder.StartDirEnum.DASKTOP)
@@ -38,14 +48,16 @@ public class HelloController {
                 .builder();
 
         File file = fc.showOpenDialog(root.getScene().getWindow());
-        if (file == null) {
+        if (file == null || !file.exists()) {
             log.error("选择文件失败");
+            welcomeText.setText("选择文件失败");
         } else {
+            welcomeText.setText(file.getAbsolutePath());
             log.info(file.getAbsolutePath());
             loadExcel(file);
         }
 
-        retry();
+        Platform.runLater(this::retry);
     }
 
     public void loadExcel(File file) {

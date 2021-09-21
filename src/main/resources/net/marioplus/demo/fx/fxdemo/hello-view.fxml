@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.VBox?>
 <VBox fx:id="root" alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="net.marioplus.demo.fx.fxdemo.controller.HelloController">
@@ -11,5 +12,6 @@
     </padding>
 
     <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+    <Button text="FileChooser" onAction="#onHelloButtonClick"/>
+    <TextArea fx:id="taLog" promptText="logger has to output here"/>
 </VBox>

@@ -21,8 +21,18 @@
         </triggeringPolicy>
     </appender>
 
+    <appender name="ToApp" class="net.marioplus.demo.fx.fxdemo.common.log.TextAreaOutStreamAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ALL</level>
+        </filter>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} -- %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <root level="INFO">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="FILE" />
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="ToApp"/>
     </root>
 </configuration>
